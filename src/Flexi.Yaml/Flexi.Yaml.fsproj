@@ -5,7 +5,11 @@
     <IsPackable>true</IsPackable>
     <PackageId>Flexi.Yaml</PackageId>
     <Description>A dependency-free YAML document API, shaped like FSharp.Data's JsonValue: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
-    <Version>0.0.0</Version>
+    <Version>0.1.0</Version>
+    <PackageReleaseNotes>Initial release: `YamlValue` DU, `Parse`/`Load`, `?` dynamic operator, `As*` accessors, round-tripping `ToString()`, anchors/aliases, multi-document streams, `YamlDocument` with comment round-tripping, and `GetPath`/`TryGetPath`/`SetPath` builders.
+Fable support: compiles to JavaScript and Python from the same source, and the package ships its F# sources under `fable/`.
+Source positions (`ParseWithPositions`) and original timestamp text (`ParseWithMetadata`).
+`IsAotCompatible` library.</PackageReleaseNotes>
     <Authors>Devon Burriss</Authors>
     <Title>Flexi.Yaml</Title>
     <Copyright>Copyright © 2026 Devon Burriss</Copyright>
