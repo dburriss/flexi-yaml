@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <IsPackable>true</IsPackable>
+    <PackageId>Flexi.Yaml</PackageId>
+    <Description>An FSharp.Data-style, dependency-free YAML document API: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
+    <Version>0.2.1</Version>
+    <Authors>Devon Burriss</Authors>
+    <Title>Flexi.Yaml</Title>
+    <Copyright>Copyright © 2026 Devon Burriss</Copyright>
+    <PackageProjectUrl>https://github.com/dburriss/flexi-yaml</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dburriss/flexi-yaml</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>fsharp yaml parser serializer</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>The package now ships its F# sources and project file under `fable/` so it can be consumed from Fable JS and Python with a plain `PackageReference`; 0.2.0 only worked via a project reference (consumers failed with "Fable packages must include F# sources"). The `lib/` DLLs and the .NET public API are unchanged.</PackageReleaseNotes>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\NUGET.md" Pack="true" PackagePath="README.md" Condition="Exists('..\..\NUGET.md')" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="YamlValue.fs" />
+    <Compile Include="YamlPortable.fs" />
+    <Compile Include="YamlReader.fs" />
+    <Compile Include="YamlScalar.fs" />
+    <Compile Include="YamlParser.fs" />
+    <Compile Include="YamlPositions.fs" />
+    <Compile Include="YamlEmitter.fs" />
+    <Compile Include="YamlExtensions.fs" />
+    <Compile Include="YamlBuilders.fs" />
+    <Compile Include="AssemblyInfo.fs" />
+  </ItemGroup>
+  <!-- Fable compiles from source: ship every .fs plus this project file under fable/ -->
+  <ItemGroup>
+    <Content Include="*.fsproj" Pack="true" PackagePath="fable/" />
+    <Content Include="@(Compile)" Pack="true" PackagePath="fable/" />
+  </ItemGroup>
+</Project>

@@ -2,7 +2,7 @@
 
 The library compiles with [Fable](https://fable.io) to JavaScript and Python from the same source
 (no separate files). Differences are `#if FABLE_COMPILER` branches, almost all in
-`src/FSharp.Data.YamlValue/YamlPortable.fs`; on .NET every one of them is the BCL call the library
+`src/Flexi.Yaml/YamlPortable.fs`; on .NET every one of them is the BCL call the library
 always made, so the .NET public surface and behaviour are unchanged.
 
 ## What is compiled out under Fable
@@ -17,7 +17,7 @@ The package ships its F# sources and project file under `fable/` (in compile ord
 `lib/` DLLs), which is what Fable compiles from. A plain package reference is enough:
 
 ```xml
-<PackageReference Include="FSharp.Data.YamlValue" Version="0.2.1" />
+<PackageReference Include="Flexi.Yaml" Version="0.2.1" />
 ```
 
 ```bash
@@ -26,7 +26,7 @@ dotnet fable MyApp.fsproj --lang python   # then: pip install fable-library==<yo
 ```
 
 Versions before 0.2.1 had no `fable/` folder and only worked through a project reference.
-`open FSharp.Data.YamlExtensions` for `?` and the accessors. To get YAML text back, call
+`open Flexi.Yaml.YamlExtensions` for `?` and the accessors. To get YAML text back, call
 `v.ToString(YamlSaveOptions.None)`: a bare `v.ToString()` is the compact structural print.
 
 ## Running the test suite under Fable
@@ -41,9 +41,9 @@ Prerequisites:
 
 - .NET SDK 8+ (the Fable tool is pinned to 5.21.0 in `.config/dotnet-tools.json` and restored by the script)
 - JS: `bun` or `node` (any runtime that runs ES modules)
-- Python: 3.12+ (3.13 tested). The script creates `tests/FSharp.Data.YamlValue.Fable/.venv` and installs `fable-library` at the Fable tool's version (network needed the first time)
+- Python: 3.12+ (3.13 tested). The script creates `tests/Flexi.Yaml.Fable/.venv` and installs `fable-library` at the Fable tool's version (network needed the first time)
 
-xUnit and FsCheck cannot run under Fable, so `tests/FSharp.Data.YamlValue.Fable` compiles the same
+xUnit and FsCheck cannot run under Fable, so `tests/Flexi.Yaml.Fable` compiles the same
 test files as the .NET suite through a small `Xunit` shim (`XunitShim.fs`).
 `scripts/fable-gen-runner.fsx` (run by the script) scans those files and generates the runner and
 an embedded copy of `tests/.../data`. The script exits non-zero when any test fails. Current result:

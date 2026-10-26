@@ -1,7 +1,7 @@
 #load "load-library.fsx"
-open FSharp.Data
-open FSharp.Data.YamlValueBuilders
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlValueBuilders
+open Flexi.Yaml.YamlExtensions
 
 // The string-path DSL used by SetPath/RemovePath: dot-separated segments address
 // mapping keys, [n] addresses a sequence index, and a segment containing a literal

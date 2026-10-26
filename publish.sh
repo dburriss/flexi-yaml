@@ -11,6 +11,6 @@
 
 dotnet fsi scripts/publish.fsx \
   --allow-dirty \
-  --fsproj "src/FSharp.Data.YamlValue/FSharp.Data.YamlValue.fsproj" \
-  --solution "FSharp.Data.YamlValue.sln" \
+  --fsproj "src/Flexi.Yaml/Flexi.Yaml.fsproj" \
+  --solution "Flexi.Yaml.sln" \
   "$@"

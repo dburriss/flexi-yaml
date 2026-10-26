@@ -13,8 +13,8 @@
 
 ## YamlValue
 
-**Namespace:** `FSharp.Data`
-**Assembly:** `FSharp.Data.YamlValue.dll`
+**Namespace:** `Flexi.Yaml`
+**Assembly:** `Flexi.Yaml.dll`
 
 Represents a YAML node. The type is `[<RequireQualifiedAccess>]`, so cases are written
 `YamlValue.String`, `YamlValue.Mapping`, and so on.
@@ -64,7 +64,7 @@ Represents a YAML node. The type is `[<RequireQualifiedAccess>]`, so cases are w
 
 ## YamlDocument
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 A parsed document together with everything `YamlValue` deliberately leaves out — comments and
 directives. Comments are held in a side table keyed by path rather than embedded in the node
@@ -104,7 +104,7 @@ tree, so `YamlValue` stays clean to pattern match on.
 
 ## YamlSaveOptions
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 A `[<Flags>]` enumeration controlling serialization.
 
@@ -120,7 +120,7 @@ A `[<Flags>]` enumeration controlling serialization.
 
 ## YamlParseException
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 **Inherits:** `System.Exception`
 
 Raised by `Parse`, `ParseMultiple`, `Load` and `AsyncLoad` on malformed input. The `*WithPositions` / `*WithMetadata` `Try` forms return the same failure as a `YamlParseError` value instead (see [Positions](#positions)).
@@ -148,7 +148,7 @@ The library compiles to JavaScript and Python with Fable from the same source. U
 
 ## Positions
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 Additive parse entry points that report where every node came from. They sit beside `Parse`, which never tracks positions (same result, same cost).
 
@@ -185,7 +185,7 @@ Conventions (shared with the sibling JSON library):
 
 ## Comment types
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 Supporting types for `YamlDocument.Comments`.
 
@@ -208,14 +208,14 @@ The root node itself has the empty path.
 
 ## YamlExtensions
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 Extension methods for working with `YamlValue` in a less safe, but more convenient way. Each
 raises an exception when the value is not of the expected shape — they are the "I know what this
 document looks like" half of the API.
 
 ```fsharp
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml.YamlExtensions
 ```
 
 ### Static members
@@ -248,7 +248,7 @@ open FSharp.Data.YamlExtensions
 
 ## YamlExtensions module
 
-**Namespace:** `FSharp.Data`
+**Namespace:** `Flexi.Yaml`
 
 ### Functions and values
 
@@ -271,14 +271,14 @@ info?name?first
 
 ## YamlBuilders
 
-**Namespace:** `FSharp.Data.YamlValueBuilders`
+**Namespace:** `Flexi.Yaml.YamlValueBuilders`
 
 `YamlValue` has no write API of its own — like `JsonValue`, it's immutable. `YamlBuilders` is an
 opt-in construction/editing API, kept in its own namespace and file (`YamlBuilders.fs`) separate
 from the read-only `YamlExtensions`. Every member returns a **new** `YamlValue`; none mutate `this`.
 
 ```fsharp
-open FSharp.Data.YamlValueBuilders
+open Flexi.Yaml.YamlValueBuilders
 ```
 
 ### `YamlValue` extension members
@@ -320,7 +320,7 @@ path string raises `System.FormatException`.
 
 ### `YamlPath`
 
-**Namespace:** `FSharp.Data.YamlValueBuilders`
+**Namespace:** `Flexi.Yaml.YamlValueBuilders`
 
 A fluent builder for a `YamlPathStep list` (the same root-first path type used by
 `YamlDocument.Comments`), aimed at callers — particularly from C# — for whom constructing

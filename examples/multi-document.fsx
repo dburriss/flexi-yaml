@@ -1,6 +1,6 @@
 #load "load-library.fsx"
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 open System.IO
 
 let text = File.ReadAllText(__SOURCE_DIRECTORY__ + "/k8s-stream.yml")

@@ -4,7 +4,7 @@ Status: Done
 
 ## Context
 
-`/Users/devon.burriss/Documents/ws/dburriss/fsharp-yaml` is empty. The goal is a greenfield F# library that gives YAML the same untyped, ergonomic document API that `FSharp.Data`'s `JsonValue` gives JSON: a discriminated union you can pattern match, `Parse`/`Load`, a `?` dynamic operator, `AsInteger()`-style accessors, and a faithful `ToString()`.
+`/Users/devon.burriss/Documents/ws/dburriss/flexi-yaml` is empty. The goal is a greenfield F# library that gives YAML the same untyped, ergonomic document API that `FSharp.Data`'s `JsonValue` gives JSON: a discriminated union you can pattern match, `Parse`/`Load`, a `?` dynamic operator, `AsInteger()`-style accessors, and a faithful `ToString()`.
 
 The existing .NET options don't fit this shape. `YamlDotNet`/`SharpYaml` are C# object-mapping libraries; `Legivel` and `YAMLicious` are typed decoder libraries in the Thoth style. None expose a matchable YAML DOM in the `JsonValue` idiom.
 
@@ -25,7 +25,7 @@ YAML 1.2 is a much larger spec than JSON — indentation-sensitive block context
 ## Target shape
 
 ```fsharp
-namespace FSharp.Data
+namespace Flexi.Yaml
 
 [<RequireQualifiedAccess>]
 [<StructuredFormatDisplay("{_Print}")>]
@@ -43,8 +43,8 @@ type YamlValue =
 Usage target:
 
 ```fsharp
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 
 let info = YamlValue.Parse """
 name: Tomas          # given name
@@ -61,21 +61,21 @@ for s in info?siblings do printfn "%s" (s.AsString())
 ## Layout
 
 ```
-fsharp-yaml/
+flexi-yaml/
   .gitignore                       (dotnet new gitignore)
   Directory.Build.props            shared TFMs, LangVersion, warnaserror, nullable
-  FSharp.Data.YamlValue.sln
+  Flexi.Yaml.sln
   README.md
-  src/FSharp.Data.YamlValue/
-    FSharp.Data.YamlValue.fsproj        netstandard2.0;net8.0 — no PackageReferences
+  src/Flexi.Yaml/
+    Flexi.Yaml.fsproj        netstandard2.0;net8.0 — no PackageReferences
     YamlValue.fs                   DU, save options, paths, comments, exception
     YamlReader.fs                  char cursor: line/col, indent, lookahead
     YamlScalar.fs                  core-schema plain-scalar resolution
     YamlParser.fs                  recursive-descent block + flow parser
     YamlEmitter.fs                 WriteTo / ToString
     YamlExtensions.fs              As* accessors, `?`, indexers, enumerator
-  tests/FSharp.Data.YamlValue.Tests/
-    FSharp.Data.YamlValue.Tests.fsproj  xunit + FsCheck.Xunit
+  tests/Flexi.Yaml.Tests/
+    Flexi.Yaml.Tests.fsproj  xunit + FsCheck.Xunit
     ScalarTests.fs  FlowTests.fs  BlockTests.fs  BlockScalarTests.fs
     AnchorTests.fs  DocumentTests.fs  CommentTests.fs
     EmitterTests.fs  RoundTripTests.fs  ConformanceTests.fs
@@ -192,4 +192,4 @@ Manual smoke test at the end — parse a real-world file (a `docker-compose.yml`
 
 ## Resolved item
 
-**Package name.** `FSharp.Data.YamlValue` is taken on NuGet (v1.0.0, ~615 downloads). The *namespace* `FSharp.Data` remains the right home for API familiarity; the shipped package id is `FSharp.Data.YamlValue` (set via `<PackageId>` in `src/FSharp.Data.YamlValue/FSharp.Data.YamlValue.fsproj`), named after the type it exports. The repo/project/assembly names stay `FSharp.Data.YamlValue` — only the published NuGet package id differs.
+**Package name.** `Flexi.Yaml` is taken on NuGet (v1.0.0, ~615 downloads). The *namespace* `FSharp.Data` remains the right home for API familiarity; the shipped package id is `Flexi.Yaml` (set via `<PackageId>` in `src/Flexi.Yaml/Flexi.Yaml.fsproj`), named after the type it exports. The repo/project/assembly names stay `Flexi.Yaml` — only the published NuGet package id differs.

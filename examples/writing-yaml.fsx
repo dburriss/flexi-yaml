@@ -1,5 +1,5 @@
 #load "load-library.fsx"
-open FSharp.Data
+open Flexi.Yaml
 
 let config =
     YamlValue.Mapping [|

@@ -1,4 +1,4 @@
-# FSharp.Data.YamlValue
+# Flexi.Yaml
 
 A YAML document API for F#, in the shape of [`FSharp.Data`'s `JsonValue`](https://fsprojects.github.io/FSharp.Data/library/JsonValue.html).
 
@@ -42,14 +42,14 @@ YAML it has never seen. Exactly what `JsonValue` does for JSON.
 ## Install
 
 ```sh
-dotnet add package FSharp.Data.YamlValue
+dotnet add package Flexi.Yaml
 ```
 
 ## Quick start
 
 ```fsharp
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 
 let info =
     YamlValue.Parse """
@@ -249,7 +249,7 @@ that returns a new `YamlValue` rather than mutating in place, with a string-path
 reads and edits:
 
 ```fsharp
-open FSharp.Data.YamlValueBuilders
+open Flexi.Yaml.YamlValueBuilders
 
 let doc = YamlValue.Parse """
 name: myapp

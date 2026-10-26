@@ -482,8 +482,8 @@ $RECYCLE.BIN/
 *.swp
 
 # Fable test harness (scripts/fable-test.sh)
-tests/FSharp.Data.YamlValue.Fable/out-js/
-tests/FSharp.Data.YamlValue.Fable/out-python/
-tests/FSharp.Data.YamlValue.Fable/.venv/
-tests/FSharp.Data.YamlValue.Fable/*.generated.fs
-tests/FSharp.Data.YamlValue.Fable/fable_modules/
+tests/Flexi.Yaml.Fable/out-js/
+tests/Flexi.Yaml.Fable/out-python/
+tests/Flexi.Yaml.Fable/.venv/
+tests/Flexi.Yaml.Fable/*.generated.fs
+tests/Flexi.Yaml.Fable/fable_modules/

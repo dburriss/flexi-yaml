@@ -8,7 +8,7 @@ Feature parity with FSharp.Data.Json with additional DSL for GetPath and SetPath
 
 ## What this project is
 
-`FSharp.Data.YamlValue` gives YAML the same untyped, ergonomic document API that `FSharp.Data`'s
+`Flexi.Yaml` gives YAML the same untyped, ergonomic document API that `FSharp.Data`'s
 `JsonValue` gives JSON: a discriminated union (`YamlValue`) you pattern match on, `Parse`/`Load`,
 a `?` dynamic operator, `AsInteger()`-style accessors, and a round-tripping `ToString()`. The
 parser is **hand-written with zero dependencies** (no YamlDotNet, Fable-friendly) and additionally
@@ -31,7 +31,7 @@ scripts/fable-test.sh [js|python|all]       # the shared suite under Fable (see 
 ## Architecture
 
 ```
-src/FSharp.Data.YamlValue/
+src/Flexi.Yaml/
   YamlValue.fs        DU, YamlSaveOptions, YamlPath/YamlNodeComments, YamlParseException, _Print
   YamlPortable.fs      the few non-portable BCL calls, each with a `#if FABLE_COMPILER` branch
   YamlReader.fs        char cursor: line/col tracking, indentation measurement, lookahead;
@@ -41,11 +41,11 @@ src/FSharp.Data.YamlValue/
   YamlPositions.fs     ParseWithPositions / ParseWithMetadata: span + timestamp-text side tables
   YamlEmitter.fs       WriteTo / ToString, quoting rules, block vs. flow style
   YamlExtensions.fs    As* accessors, `?` operator, indexers, GetEnumerator
-tests/FSharp.Data.YamlValue.Tests/
+tests/Flexi.Yaml.Tests/
   *Tests.fs            one file per concern (Scalar, Flow, Block, BlockScalar, Anchor, Document,
                         Comment, Emitter, RoundTrip, Conformance, Position)
   data/                 curated yaml-test-suite cases (yaml input + expected json output)
-tests/FSharp.Data.YamlValue.Fable/
+tests/Flexi.Yaml.Fable/
   compiles the SAME test files under Fable through an Xunit shim; Runner/data are generated
   by scripts/fable-gen-runner.fsx (gitignored)
 ```

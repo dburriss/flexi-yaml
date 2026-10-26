@@ -1,6 +1,6 @@
 #load "load-library.fsx"
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 
 // See anchors-and-merge-keys.fsx for `<<: *anchor` merging. This script is about a
 // plain alias `*anchor` used directly as a value — it resolves during parsing into a

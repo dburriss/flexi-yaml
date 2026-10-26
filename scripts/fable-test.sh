@@ -6,13 +6,13 @@
 # Prerequisites (see docs/fable.md): .NET SDK 8+, `bun` or `node` for the JS run (any JS runtime
 # that runs ES modules), Python 3.12+ for the Python run (3.13 tested). The Fable tool itself is
 # pinned in .config/dotnet-tools.json and restored here; the Python run creates
-# tests/FSharp.Data.YamlValue.Fable/.venv and installs `fable-library` at the same version.
+# tests/Flexi.Yaml.Fable/.venv and installs `fable-library` at the same version.
 # Exit code is non-zero if any test fails.
 set -euo pipefail
 
 target="${1:-all}"
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-proj="$root/tests/FSharp.Data.YamlValue.Fable"
+proj="$root/tests/Flexi.Yaml.Fable"
 fable_version="$(grep -A1 '"fable"' "$root/.config/dotnet-tools.json" | grep -o '[0-9][0-9.]*' | head -1)"
 
 cd "$root"

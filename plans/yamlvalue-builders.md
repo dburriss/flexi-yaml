@@ -27,9 +27,9 @@ New namespace/file, kept separate from `YamlExtensions.fs` so the read-only, pat
 core stays as-is and this is purely opt-in:
 
 ```fsharp
-namespace FSharp.Data.YamlValueBuilders
+namespace Flexi.Yaml.YamlValueBuilders
 
-open FSharp.Data
+open Flexi.Yaml
 
 type YamlPathStep with
     // reuses the existing YamlPathStep/YamlPath types from YamlValue.fs (Key/Index, root-first list)
@@ -40,7 +40,7 @@ type YamlPath =
     member Key   : name: string -> YamlPath
     member Key   : key: YamlValue -> YamlPath      // non-string keys
     member Index : index: int -> YamlPath
-    member Steps : FSharp.Data.YamlValuePathStep list    // underlying root-first step list
+    member Steps : Flexi.YamlPathStep list    // underlying root-first step list
 
 [<Extension>]
 type YamlBuilderExtensions =
@@ -60,8 +60,8 @@ type YamlBuilderExtensions =
 Usage:
 
 ```fsharp
-open FSharp.Data
-open FSharp.Data.YamlValueBuilders
+open Flexi.Yaml
+open Flexi.Yaml.YamlValueBuilders
 
 let doc = YamlValue.Parse """
 name: myapp
@@ -84,8 +84,8 @@ let withIntKey =
 ```
 
 ```csharp
-using FSharp.Data;
-using FSharp.Data.YamlValueBuilders;
+using Flexi.Yaml;
+using Flexi.Yaml.YamlValueBuilders;
 
 var updated = doc
     .SetProperty("name", YamlValue.NewString("myapp2"))
@@ -103,8 +103,8 @@ var withIntKey = doc.SetPath(YamlPath.Root.Key("services").Index(0), YamlValue.N
 `YamlExtensions.fs` is the read-only, "know what this document looks like" half of the API
 (`docs/reference.md`). Mutation-flavored construction is a distinct concern users should opt into
 explicitly — mirrors the existing precedent of keeping comments out of `YamlValue` and into a
-separate `YamlDocument` side structure. New file: `src/FSharp.Data.YamlValue/YamlBuilders.fs`,
-namespace `FSharp.Data.YamlValueBuilders`.
+separate `YamlDocument` side structure. New file: `src/Flexi.Yaml/YamlBuilders.fs`,
+namespace `Flexi.Yaml.YamlValueBuilders`.
 
 ### String-path DSL is the primary API, not the `YamlPathStep` DU
 
@@ -153,10 +153,10 @@ Deletion is the inverse of the above, but not symmetric everywhere:
 ## Layout
 
 ```
-src/FSharp.Data.YamlValue/
+src/Flexi.Yaml/
   YamlBuilders.fs        YamlPath fluent builder, DSL parser, SetProperty/RemoveProperty,
                           SetPath/RemovePath (string-path and YamlPath overloads)
-tests/FSharp.Data.YamlValue.Tests/
+tests/Flexi.Yaml.Tests/
   BuilderTests.fs         SetProperty/RemoveProperty, DSL parsing + escaping, auto-vivify,
                           padding, overwriteScalars, RemovePath no-op/splice/no-prune
 ```

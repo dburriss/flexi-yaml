@@ -1,7 +1,7 @@
 #load "load-library.fsx"
-open FSharp.Data
-open FSharp.Data.YamlValueBuilders
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlValueBuilders
+open Flexi.Yaml.YamlExtensions
 
 let doc = YamlValue.Load(__SOURCE_DIRECTORY__ + "/docker-compose.yml")
 

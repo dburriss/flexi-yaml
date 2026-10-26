@@ -1,6 +1,6 @@
 #load "load-library.fsx"
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 
 let info = YamlValue.Load(__SOURCE_DIRECTORY__ + "/person.yml")
 

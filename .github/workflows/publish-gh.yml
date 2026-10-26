@@ -35,7 +35,7 @@ jobs:
 
       - name: Pack
         run: >
-          dotnet pack src/FSharp.Data.YamlValue/FSharp.Data.YamlValue.fsproj
+          dotnet pack src/Flexi.Yaml/Flexi.Yaml.fsproj
           --configuration Release
           --no-restore
           --output ./artifacts

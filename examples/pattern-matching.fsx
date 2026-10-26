@@ -1,5 +1,5 @@
 #load "load-library.fsx"
-open FSharp.Data
+open Flexi.Yaml
 
 let rec describe (value: YamlValue) : string =
     match value with

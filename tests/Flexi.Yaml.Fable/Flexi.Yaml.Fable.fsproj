@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <!-- Same assembly name as the .NET test project, so `InternalsVisibleTo` in the library's
+         AssemblyInfo.fs makes `YamlScalar`/`YamlReader` visible to the shared test files. -->
+    <AssemblyName>Flexi.Yaml.Tests</AssemblyName>
+    <NoWarn>$(NoWarn);FS3370</NoWarn>
+  </PropertyGroup>
+
+  <!-- Compiled by Fable (`scripts/fable-test.sh`), not by `dotnet test`: the .NET suite lives in
+       ../Flexi.Yaml.Tests and these are the same files, run through a tiny xUnit shim.
+       Runner.generated.fs and FableTestData.generated.fs are written by
+       scripts/fable-gen-runner.py (run it before building this project). -->
+  <ItemGroup>
+    <Compile Include="XunitShim.fs" />
+    <Compile Include="FableTestData.generated.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/YamlValueTests.fs" Link="Tests/YamlValueTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/YamlReaderTests.fs" Link="Tests/YamlReaderTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/ScalarTests.fs" Link="Tests/ScalarTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/FlowTests.fs" Link="Tests/FlowTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/BlockTests.fs" Link="Tests/BlockTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/BlockScalarTests.fs" Link="Tests/BlockScalarTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/AnchorTests.fs" Link="Tests/AnchorTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/DocumentTests.fs" Link="Tests/DocumentTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/CommentTests.fs" Link="Tests/CommentTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/EmitterTests.fs" Link="Tests/EmitterTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/ExtensionsTests.fs" Link="Tests/ExtensionsTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/BuilderTests.fs" Link="Tests/BuilderTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/ConformanceTests.fs" Link="Tests/ConformanceTests.fs" />
+    <Compile Include="../Flexi.Yaml.Tests/PositionTests.fs" Link="Tests/PositionTests.fs" />
+    <Compile Include="Runner.generated.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/Flexi.Yaml/Flexi.Yaml.fsproj" />
+  </ItemGroup>
+
+</Project>

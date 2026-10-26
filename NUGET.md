@@ -1,4 +1,4 @@
-# FSharp.Data.YamlValue
+# Flexi.Yaml
 
 A YAML document API for F#, in the shape of [`FSharp.Data`'s `JsonValue`](https://fsprojects.github.io/FSharp.Data/library/JsonValue.html).
 
@@ -10,14 +10,14 @@ Hand-written parser, zero dependencies, `netstandard2.0`/`net8.0`, AOT-compatibl
 ## Install
 
 ```sh
-dotnet add package FSharp.Data.YamlValue
+dotnet add package Flexi.Yaml
 ```
 
 ## Quick start
 
 ```fsharp
-open FSharp.Data
-open FSharp.Data.YamlExtensions
+open Flexi.Yaml
+open Flexi.Yaml.YamlExtensions
 
 let info =
     YamlValue.Parse """
@@ -40,7 +40,7 @@ for sibling in info?siblings do
 `YamlBuilders` adds an immutable edit API with a string-path DSL, beyond what `JsonValue` offers:
 
 ```fsharp
-open FSharp.Data.YamlValueBuilders
+open Flexi.Yaml.YamlValueBuilders
 
 let doc = YamlValue.Parse """
 name: myapp
@@ -68,10 +68,10 @@ parsed.TimestampText.["/released"]  // "2026-10-14"
 
 ## Learn more
 
-- Full README, examples, and the `JsonValue`-parity table: [github.com/dburriss/FSharp.Data.YamlValue](https://github.com/dburriss/FSharp.Data.YamlValue)
-- API reference: [`docs/reference.md`](https://github.com/dburriss/FSharp.Data.YamlValue/blob/main/docs/reference.md)
-- Fable (JS/Python) support and known differences: [`docs/fable.md`](https://github.com/dburriss/FSharp.Data.YamlValue/blob/main/docs/fable.md)
-- Runnable example scripts: [`examples/`](https://github.com/dburriss/FSharp.Data.YamlValue/tree/main/examples)
+- Full README, examples, and the `JsonValue`-parity table: [github.com/dburriss/flexi-yaml](https://github.com/dburriss/flexi-yaml)
+- API reference: [`docs/reference.md`](https://github.com/dburriss/flexi-yaml/blob/main/docs/reference.md)
+- Fable (JS/Python) support and known differences: [`docs/fable.md`](https://github.com/dburriss/flexi-yaml/blob/main/docs/fable.md)
+- Runnable example scripts: [`examples/`](https://github.com/dburriss/flexi-yaml/tree/main/examples)
 
 ## License
 
