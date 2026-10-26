@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageId>Flexi.Yaml</PackageId>
-    <Description>An FSharp.Data-style, dependency-free YAML document API: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
+    <Description>A dependency-free YAML document API, shaped like FSharp.Data's JsonValue: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
     <Version>0.2.1</Version>
     <Authors>Devon Burriss</Authors>
     <Title>Flexi.Yaml</Title>

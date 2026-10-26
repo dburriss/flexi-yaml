@@ -192,4 +192,4 @@ Manual smoke test at the end — parse a real-world file (a `docker-compose.yml`
 
 ## Resolved item
 
-**Package name.** `Flexi.Yaml` is taken on NuGet (v1.0.0, ~615 downloads). The *namespace* `FSharp.Data` remains the right home for API familiarity; the shipped package id is `Flexi.Yaml` (set via `<PackageId>` in `src/Flexi.Yaml/Flexi.Yaml.fsproj`), named after the type it exports. The repo/project/assembly names stay `Flexi.Yaml` — only the published NuGet package id differs.
+**Package name.** The package id, namespace, repo, project and assembly are all `Flexi.Yaml` (package id set via `<PackageId>` in `src/Flexi.Yaml/Flexi.Yaml.fsproj`). `FSharp.Data` is only the inspiration for the API shape, not a namespace this library uses.

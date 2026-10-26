@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Status
 
-Feature parity with FSharp.Data.Json with additional DSL for GetPath and SetPath.
+Feature parity with FSharp.Data's JsonValue (the API inspiration) with additional DSL for GetPath and SetPath.
 
 ## What this project is
 

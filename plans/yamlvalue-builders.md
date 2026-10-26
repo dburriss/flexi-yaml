@@ -40,7 +40,7 @@ type YamlPath =
     member Key   : name: string -> YamlPath
     member Key   : key: YamlValue -> YamlPath      // non-string keys
     member Index : index: int -> YamlPath
-    member Steps : Flexi.YamlPathStep list    // underlying root-first step list
+    member Steps : Flexi.Yaml.YamlPathStep list    // underlying root-first step list
 
 [<Extension>]
 type YamlBuilderExtensions =
