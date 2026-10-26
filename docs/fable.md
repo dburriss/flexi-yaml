@@ -17,7 +17,7 @@ The package ships its F# sources and project file under `fable/` (in compile ord
 `lib/` DLLs), which is what Fable compiles from. A plain package reference is enough:
 
 ```xml
-<PackageReference Include="Flexi.Yaml" Version="0.2.1" />
+<PackageReference Include="Flexi.Yaml" Version="0.1.0" />
 ```
 
 ```bash
@@ -25,7 +25,6 @@ dotnet fable MyApp.fsproj --lang js
 dotnet fable MyApp.fsproj --lang python   # then: pip install fable-library==<your Fable version>
 ```
 
-Versions before 0.2.1 had no `fable/` folder and only worked through a project reference.
 `open Flexi.Yaml.YamlExtensions` for `?` and the accessors. To get YAML text back, call
 `v.ToString(YamlSaveOptions.None)`: a bare `v.ToString()` is the compact structural print.
 
