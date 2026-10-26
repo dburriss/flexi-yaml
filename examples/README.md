@@ -28,6 +28,7 @@ Each script `#load`s [`load-library.fsx`](load-library.fsx), which `#r`s the bui
 | [`building-and-editing.fsx`](building-and-editing.fsx) | `YamlBuilders`' `SetProperty`/`SetPath`/`RemovePath` |
 | [`string-path-dsl.fsx`](string-path-dsl.fsx) | The `SetPath`/`RemovePath`/`GetPath`/`TryGetPath` string-path DSL and the `YamlPath` fluent builder |
 | [`comments.fsx`](comments.fsx) | `YamlDocument.Parse` and comment round-tripping |
+| [`positions.fsx`](positions.fsx) | `ParseWithPositions` spans, `TryParseWithPositions` errors, `ParseWithMetadata` timestamp text |
 
 ## Data files
 
