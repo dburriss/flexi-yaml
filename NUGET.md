@@ -56,14 +56,15 @@ updated.TryGetPath("services.web.image")   // Some (YamlValue.String "nginx:1.27
 ## Source positions and timestamp text
 
 `ParseWithPositions` also returns the line/column/offset span of every node, keyed by JSON Pointer;
-`ParseWithMetadata` additionally keeps the original text of timestamps. `Parse` is unchanged.
+`ParseWithMetadata` additionally keeps the original text of timestamps and numbers. `Parse` is unchanged.
 
 ```fsharp
 let value, spans = YamlValue.ParseWithPositions "name: web\nports:\n  - 80\n"
 spans.["/ports/0"].Start.Line      // 3
 
-let parsed = YamlValue.ParseWithMetadata "released: 2026-10-14"
+let parsed = YamlValue.ParseWithMetadata "released: 2026-10-14\nversion: 1.10"
 parsed.TimestampText.["/released"]  // "2026-10-14"
+parsed.NumberText.["/version"]      // "1.10"
 ```
 
 ## Learn more

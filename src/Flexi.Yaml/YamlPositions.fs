@@ -4,7 +4,7 @@ open System.Collections.Generic
 open Flexi.Yaml.YamlReader
 
 /// The result of a position-tracking parse (`YamlValue.ParseWithMetadata`): the parsed value,
-/// the source span of each of its nodes, and the original source text of each timestamp.
+/// the source span of each of its nodes, and the original source text of each timestamp and number.
 /// Everything is keyed by RFC 6901 JSON Pointer over the *expanded* tree (anchors resolved,
 /// merge keys applied).
 type YamlParsed =
@@ -16,7 +16,13 @@ type YamlParsed =
       /// example `2026-10-14` or `2026-10-14 01:02:03 +01:00`), keyed by JSON Pointer. Needed
       /// because `Timestamp` holds a `DateTimeOffset`, which cannot tell a date from midnight UTC
       /// or say whether a zone was written.
-      TimestampText: Map<string, string> }
+      TimestampText: Map<string, string>
+      /// For every `YamlValue.Number` and `YamlValue.Float` node, the text it was written as in
+      /// the source (for example `1.10`, `1.0`, `1e3`, `0x1F`), keyed by JSON Pointer. Needed
+      /// because `Number` holds a `decimal` and `Float` a `float`, which cannot tell `1.10` from
+      /// `1.1` or `1.0` from `1`. An aliased or merged-in number reports the anchor's scalar text
+      /// at every site. Quoted number-like text is a `String` and has no entry.
+      NumberText: Map<string, string> }
 
 module internal YamlPositions =
 
@@ -38,6 +44,7 @@ module internal YamlPositions =
     let rec private walk
         (spans: Dictionary<string, Span>)
         (stamps: Dictionary<string, string>)
+        (nums: Dictionary<string, string>)
         (v: YamlValue)
         (node: SpanNode)
         (over: Span option)
@@ -55,6 +62,9 @@ module internal YamlPositions =
         match v with
         | YamlValue.Timestamp _ ->
             if not (isNull r) && not (isNull r.Raw) then stamps.[ptr] <- r.Raw
+        | YamlValue.Number _
+        | YamlValue.Float _ ->
+            if not (isNull r) && not (isNull r.Raw) then nums.[ptr] <- r.Raw
         | YamlValue.Mapping pairs ->
             let positional = not (isNull r) && r.Children.Length = pairs.Length * 2
             let seen = HashSet<string>()
@@ -62,23 +72,25 @@ module internal YamlPositions =
                 match pairs.[j] with
                 | YamlValue.String key, value when seen.Add key ->
                     let child = if positional then r.Children.[j * 2 + 1] else null
-                    walk spans stamps value child over span (ptr + "/" + escapeToken key)
+                    walk spans stamps nums value child over span (ptr + "/" + escapeToken key)
                 | _ -> ()
         | YamlValue.Sequence elems ->
             let positional = not (isNull r) && r.Children.Length = elems.Length
             for i in 0 .. elems.Length - 1 do
                 let child = if positional then r.Children.[i] else null
-                walk spans stamps elems.[i] child over span (ptr + "/" + string i)
+                walk spans stamps nums elems.[i] child over span (ptr + "/" + string i)
         | _ -> ()
 
     let toParsed (value: YamlValue) (root: SpanNode) : YamlParsed =
         let spans = Dictionary<string, Span>()
         let stamps = Dictionary<string, string>()
+        let nums = Dictionary<string, string>()
         let origin: Pos = { Line = 1; Column = 1; Offset = 0 }
-        walk spans stamps value root None { Start = origin; End = origin } ""
+        walk spans stamps nums value root None { Start = origin; End = origin } ""
         { Root = value
           Spans = spans |> Seq.map (fun kv -> kv.Key, kv.Value) |> Map.ofSeq
-          TimestampText = stamps |> Seq.map (fun kv -> kv.Key, kv.Value) |> Map.ofSeq }
+          TimestampText = stamps |> Seq.map (fun kv -> kv.Key, kv.Value) |> Map.ofSeq
+          NumberText = nums |> Seq.map (fun kv -> kv.Key, kv.Value) |> Map.ofSeq }
 
     /// Converts a raised `YamlParseException` into the value form, recovering the bare message
     /// and the 0-based offset of its line/column.
@@ -142,13 +154,15 @@ module YamlPositionParsing =
             with :? YamlParseException as e ->
                 Error(YamlPositions.toError text e)
 
-        /// Like `ParseWithPositions`, plus the original source text of every timestamp, as one
-        /// `YamlParsed`. Plain `Parse` still loses that text; this is the way to keep it.
+        /// Like `ParseWithPositions`, plus the original source text of every timestamp
+        /// (`TimestampText`) and number (`NumberText`), as one `YamlParsed`. Plain `Parse` still
+        /// loses that text; this is the way to keep it.
         static member ParseWithMetadata(text: string, ?disableMergeKeys: bool) : YamlParsed =
             let value, root = YamlParser.parseDocumentWithSpans text (defaultArg disableMergeKeys false)
             YamlPositions.toParsed value root
 
-        /// Like `ParseWithMetadata` but returns `Error` instead of raising.
+        /// Like `ParseWithMetadata` (including `TimestampText` and `NumberText`) but returns
+        /// `Error` instead of raising.
         static member TryParseWithMetadata(text: string, ?disableMergeKeys: bool) : Result<YamlParsed, YamlParseError> =
             try
                 Ok(YamlValue.ParseWithMetadata(text, ?disableMergeKeys = disableMergeKeys))
@@ -160,7 +174,8 @@ module YamlPositionParsing =
         static member ParseMultipleWithPositions(text: string) : (YamlValue * Map<string, Span>) seq =
             YamlValue.ParseMultipleWithMetadata text |> Seq.map (fun p -> p.Root, p.Spans)
 
-        /// `ParseMultiple` with full metadata per document.
+        /// `ParseMultiple` with full metadata per document, including `TimestampText` and
+        /// `NumberText`; each document has its own maps, keyed by pointers relative to it.
         static member ParseMultipleWithMetadata(text: string) : YamlParsed seq =
             YamlParser.parseStreamWithSpans text false
             |> List.map (fun (v, n) -> YamlPositions.toParsed v n)

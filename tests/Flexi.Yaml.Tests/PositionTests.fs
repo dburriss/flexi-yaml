@@ -259,6 +259,94 @@ let ``timestamp text covers flow, sequences, aliases, merges and tags`` () =
     Assert.Equal("2026-07-08 09:10:11", t.["/d/t"])
     Assert.Equal("2026-09-10", t.["/e"])
 
+[<Theory>]
+[<InlineData("1.10")>]
+[<InlineData("1.0")>]
+[<InlineData("2.50")>]
+[<InlineData("1e3")>]
+[<InlineData("-0")>]
+[<InlineData("0x1F")>]
+[<InlineData("12345678901234567890")>]
+[<InlineData("1.5e400")>]
+[<InlineData("12345678901234567890.123456789012345678901234567890")>]
+let ``number source text is kept exactly`` (n: string) =
+    let block = YamlValue.ParseWithMetadata("n: " + n + "\n")
+    Assert.Equal<(string * string) list>([ "/n", n ], block.NumberText |> Map.toList)
+    let flow = YamlValue.ParseWithMetadata("{n: " + n + "}")
+    Assert.Equal<(string * string) list>([ "/n", n ], flow.NumberText |> Map.toList)
+    let root = YamlValue.ParseWithMetadata n
+    Assert.Equal<(string * string) list>([ "", n ], root.NumberText |> Map.toList)
+
+[<Fact>]
+let ``number text covers number kinds, flow, sequences and nesting`` () =
+    let p = YamlValue.ParseWithMetadata "a: [1.10, 2, x]\nb: {c: 1.0, d: [3.50]}\ne:\n  - f: 1e3\n"
+    let t = p.NumberText
+    Assert.Equal("1.10", t.["/a/0"])
+    Assert.Equal("2", t.["/a/1"])
+    Assert.False(t.ContainsKey "/a/2")
+    Assert.Equal("1.0", t.["/b/c"])
+    Assert.Equal("3.50", t.["/b/d/0"])
+    Assert.Equal("1e3", t.["/e/0/f"])
+    Assert.Equal(5, t.Count)
+
+[<Fact>]
+let ``number text kinds match the value`` () =
+    let p = YamlValue.ParseWithMetadata "a: 1.10\nb: 1e3\nc: 1.5e400\nd: 12345678901234567890\n"
+    match p.Root with
+    | YamlValue.Mapping [| _, YamlValue.Number _; _, YamlValue.Number _; _, YamlValue.Float _; _, YamlValue.Number _ |] -> ()
+    | other -> failwithf "unexpected %A" other
+
+[<Fact>]
+let ``number text under escaped keys`` () =
+    let p = YamlValue.ParseWithMetadata "a/b: 1.10\na~b: 2.50\n\"\": 3.0\n"
+    Assert.Equal("1.10", p.NumberText.["/a~1b"])
+    Assert.Equal("2.50", p.NumberText.["/a~0b"])
+    Assert.Equal("3.0", p.NumberText.["/"])
+
+[<Fact>]
+let ``number text in block keys, multi-line scalars and omitted values`` () =
+    let p = YamlValue.ParseWithMetadata "k:\n  1.10\nm: 5\n  6\nn:\n"
+    Assert.Equal("1.10", p.NumberText.["/k"])
+    Assert.False(p.NumberText.ContainsKey "/m") // "5 6" is a String
+    Assert.False(p.NumberText.ContainsKey "/n")
+
+[<Fact>]
+let ``number text through aliases and merges`` () =
+    let text = "a: &n 1.10\nb: *n\nbase: &base {x: 2.50, y: [3.0]}\nm:\n  <<: *base\n  z: 4.0\n"
+    let t = (YamlValue.ParseWithMetadata text).NumberText
+    Assert.Equal("1.10", t.["/a"])
+    Assert.Equal("1.10", t.["/b"])
+    Assert.Equal("2.50", t.["/base/x"])
+    Assert.Equal("2.50", t.["/m/x"])
+    Assert.Equal("3.0", t.["/m/y/0"])
+    Assert.Equal("4.0", t.["/m/z"])
+
+[<Fact>]
+let ``quoted number-like text has no entry`` () =
+    let p = YamlValue.ParseWithMetadata "a: \"1.10\"\nb: '2.0'\nc: |\n  3.0\n"
+    Assert.True(p.NumberText.IsEmpty)
+
+[<Fact>]
+let ``tagged number scalars keep their written text`` () =
+    let p = YamlValue.ParseWithMetadata "a: !!float 1\nb: !!int \"3\"\nc: !!float 2.50\nd: !!str 4\n"
+    Assert.Equal("1", p.NumberText.["/a"])
+    Assert.Equal("3", p.NumberText.["/b"])
+    Assert.Equal("2.50", p.NumberText.["/c"])
+    Assert.False(p.NumberText.ContainsKey "/d")
+
+[<Fact>]
+let ``number text with duplicate keys is owned by the first`` () =
+    let p = YamlValue.ParseWithMetadata "a: 1.10\na: 2.50\n"
+    Assert.Equal<(string * string) list>([ "/a", "1.10" ], p.NumberText |> Map.toList)
+
+[<Fact>]
+let ``number text per document and none without numbers`` () =
+    let docs = YamlValue.ParseMultipleWithMetadata "a: 1.10\n---\nb: [2.50]\n---\nc: x\n" |> List.ofSeq
+    Assert.Equal<(string * string) list>([ "/a", "1.10" ], docs.[0].NumberText |> Map.toList)
+    Assert.Equal<(string * string) list>([ "/b/0", "2.50" ], docs.[1].NumberText |> Map.toList)
+    Assert.True(docs.[2].NumberText.IsEmpty)
+    Assert.True((YamlValue.ParseWithMetadata "a: x\nb: 2026-01-01\n").NumberText.IsEmpty)
+
 [<Fact>]
 let ``metadata agrees with ParseWithPositions and Parse`` () =
     let text = "a: 2026-10-14\nb: [1, {c: x}]\n"

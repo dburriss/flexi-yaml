@@ -25,7 +25,7 @@ operator, read with `AsInteger()`-style accessors, and write back out — includ
   that guarantee `Parse(v.ToString(YamlSaveOptions.None)) = v` (the property `RoundTripTests` checks
   via FsCheck).
 - **Source positions** — `ParseWithPositions` returns the line/column/offset span of every node,
-  keyed by JSON Pointer, and `ParseWithMetadata` also keeps the original text of timestamps.
+  keyed by JSON Pointer, and `ParseWithMetadata` also keeps the original text of timestamps and numbers.
 - **Fable** — compiles to JavaScript and Python from the same source; the test suite runs under both
   (see [`docs/fable.md`](docs/fable.md)).
 
@@ -222,9 +222,11 @@ spans.["/ports/0"]
 // { Start = { Line = 3; Column = 5; Offset = 21 }
 //   End   = { Line = 3; Column = 7; Offset = 23 } }
 
-// Timestamps keep the text they were written as (`Timestamp` only holds a DateTimeOffset):
-let parsed = YamlValue.ParseWithMetadata "released: 2026-10-14"
+// Timestamps and numbers keep the text they were written as (`Timestamp` only holds a
+// DateTimeOffset, `Number` a decimal):
+let parsed = YamlValue.ParseWithMetadata "released: 2026-10-14\nversion: 1.10"
 parsed.TimestampText.["/released"]   // "2026-10-14"
+parsed.NumberText.["/version"]       // "1.10"
 ```
 
 Spans are keyed by RFC 6901 JSON Pointer over the expanded tree (`""` is the root, `/a/0/b`,

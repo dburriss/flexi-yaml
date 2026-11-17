@@ -109,11 +109,12 @@ Also compiles with Fable 5.21.0 (JS and Python) from the same source; see `docs/
   since a shared-subtree graph can still expand exponentially (billion-laughs). Merge keys
   (`<<: *base`) are on by default.
 
-### Positions, timestamp text and Fable (additive; `Parse` and the DU are untouched)
+### Positions, timestamp/number text and Fable (additive; `Parse` and the DU are untouched)
 
 - **`ParseWithPositions` / `ParseWithMetadata`** return side tables keyed by RFC 6901 JSON Pointer
   over the *expanded* tree: `Span`s, and the original text of every `Timestamp`
-  (`YamlParsed.TimestampText`) since the DU only holds a `DateTimeOffset`. Spans are recorded by a
+  (`YamlParsed.TimestampText`) since the DU only holds a `DateTimeOffset`, and of every `Number`/`Float`
+  (`YamlParsed.NumberText`) since `1.10` and `1.0` do not survive as `decimal`/`float`. Spans are recorded by a
   `SpanRecorder` on the `Cursor` (null on plain `Parse`, so it costs a null check). Every node-
   producing parser site records exactly one node; omitted values get a zero-width node via
   `ensureNode`. Aliases and merged-in keys are positioned at the alias / `<<` site.

@@ -156,7 +156,7 @@ Additive parse entry points that report where every node came from. They sit bes
 |---|---|---|
 | `ParseWithPositions` | `ParseWithPositions(text: string, ?disableMergeKeys: bool) : YamlValue * Map<string, Span>` | `Parse`, plus the source `Span` of every node keyed by JSON Pointer. |
 | `TryParseWithPositions` | `TryParseWithPositions(text: string, ?disableMergeKeys: bool) : Result<YamlValue * Map<string, Span>, YamlParseError>` | Non-throwing form; the error carries the message and failure `Pos`. |
-| `ParseWithMetadata` | `ParseWithMetadata(text: string, ?disableMergeKeys: bool) : YamlParsed` | Spans (as above) plus the original source text of every timestamp. Also `TryParseWithMetadata` and `ParseMultipleWithMetadata`. |
+| `ParseWithMetadata` | `ParseWithMetadata(text: string, ?disableMergeKeys: bool) : YamlParsed` | Spans (as above) plus the original source text of every timestamp and number. Also `TryParseWithMetadata` and `ParseMultipleWithMetadata`. |
 | `ParseMultipleWithPositions` | `ParseMultipleWithPositions(text: string) : (YamlValue * Map<string, Span>) seq` | One span table per document; positions relative to the whole stream. |
 
 ```fsharp
@@ -166,10 +166,13 @@ type YamlParseError = { Message: string; Pos: Pos }
 type YamlParsed =
     { Root: YamlValue
       Spans: Map<string, Span>
-      TimestampText: Map<string, string> }
+      TimestampText: Map<string, string>
+      NumberText: Map<string, string> }
 ```
 
 `YamlParsed.TimestampText` maps the pointer of every `Timestamp` node to the text it was written as (`2026-10-14`, `2026-10-14 01:02:03 +01:00`, a zoneless `2026-10-14T01:02:03`, ...), because `Timestamp` holds a `DateTimeOffset` and cannot tell a date from midnight UTC or say whether a zone was written. An aliased or merged-in timestamp reports the text of the anchor's scalar. Plain `Parse` still loses the original text; use `ParseWithMetadata` to keep it. Quoted timestamp-like text is a `String` and has no entry.
+
+`YamlParsed.NumberText` does the same for every `Number` and `Float` node (`1.10`, `1.0`, `1e3`, `0x1F`, an integer beyond `int64`), because `1.10` and `1.1`, or `1.0` and `1`, are the same value. Aliased and merged-in numbers report the anchor's text; quoted number-like text is a `String` and has no entry.
 
 Conventions (shared with the sibling JSON library):
 
