@@ -4,7 +4,7 @@ A YAML document API for F#, in the shape of [`FSharp.Data`'s `JsonValue`](https:
 
 Parse YAML into a discriminated union you can pattern match, navigate with the `?` dynamic
 operator, read with `AsInteger()`-style accessors, and write back out — including comments.
-Hand-written parser, zero dependencies, `netstandard2.0`/`net8.0`, AOT-compatible, and Fable-compatible
+Hand-written parser, zero dependencies, `netstandard2.0`/`net10.0`, AOT-compatible, and Fable-compatible
 (JavaScript and Python).
 
 ## Install

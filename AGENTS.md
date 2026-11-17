@@ -78,7 +78,7 @@ tests/Flexi.Yaml.Fable/
   by scripts/fable-gen-runner.fsx (gitignored)
 ```
 
-Target framework: `netstandard2.0;net8.0`, no `PackageReference`s in the main library — test
+Target framework: `netstandard2.0;net10.0`, no `PackageReference`s in the main library — test
 project uses xunit + FsCheck.Xunit. Toolchain: .NET SDK 10.0.301 (8.0/9.0 also installed).
 Also compiles with Fable 5.21.0 (JS and Python) from the same source; see `docs/fable.md`.
 

@@ -13,7 +13,7 @@ dotnet fsi examples/quickstart.fsx
 ```
 
 Each script `#load`s [`load-library.fsx`](load-library.fsx), which `#r`s the built
-`net8.0` DLL — rebuild the library after code changes for the scripts to pick them up.
+`net10.0` DLL — rebuild the library after code changes for the scripts to pick them up.
 
 ## Scripts
 

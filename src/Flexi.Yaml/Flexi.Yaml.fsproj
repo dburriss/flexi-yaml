@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageId>Flexi.Yaml</PackageId>
     <Description>A dependency-free YAML document API, shaped like FSharp.Data's JsonValue: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
@@ -21,7 +21,7 @@ Source positions (`ParseWithPositions`) and original timestamp text (`ParseWithM
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IsAotCompatible>true</IsAotCompatible>
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\NUGET.md" Pack="true" PackagePath="README.md" Condition="Exists('..\..\NUGET.md')" />
