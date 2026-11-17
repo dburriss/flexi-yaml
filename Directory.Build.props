@@ -11,4 +11,12 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <!-- FSharp.Core floor for the packed library. Explicit so the nuspec dependency does not follow
+       whichever SDK the CI runner happens to have (0.2.0 accidentally required 11.0.101). The library
+       uses no FSharp.Core feature newer than this; raise it only when the code needs to. Applied to the
+       packable project only, so tests and Fable projects resolve their own (higher) versions. -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Flexi.Yaml'">
+    <FSharpCoreImplicitPackageVersion>8.0.403</FSharpCoreImplicitPackageVersion>
+  </PropertyGroup>
+
 </Project>
