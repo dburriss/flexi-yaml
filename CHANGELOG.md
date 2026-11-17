@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-17
+
 ### Added
 
 - `YamlParsed.NumberText`: the original source text of every `Number` and `Float` node (`1.10`, `1.0`, `1e3`, `0x1F`), keyed by JSON Pointer, from `ParseWithMetadata`, `TryParseWithMetadata` and `ParseMultipleWithMetadata`.

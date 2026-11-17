@@ -5,11 +5,10 @@
     <IsPackable>true</IsPackable>
     <PackageId>Flexi.Yaml</PackageId>
     <Description>A dependency-free YAML document API, shaped like FSharp.Data's JsonValue: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
-    <Version>0.1.0</Version>
-    <PackageReleaseNotes>Initial release: `YamlValue` DU, `Parse`/`Load`, `?` dynamic operator, `As*` accessors, round-tripping `ToString()`, anchors/aliases, multi-document streams, `YamlDocument` with comment round-tripping, and `GetPath`/`TryGetPath`/`SetPath` builders.
-Fable support: compiles to JavaScript and Python from the same source, and the package ships its F# sources under `fable/`.
-Source positions (`ParseWithPositions`) and original timestamp text (`ParseWithMetadata`).
-`IsAotCompatible` library.</PackageReleaseNotes>
+    <Version>0.2.0</Version>
+    <PackageReleaseNotes>`YamlParsed.NumberText`: the original source text of every `Number` and `Float` node (`1.10`, `1.0`, `1e3`, `0x1F`), keyed by JSON Pointer, from `ParseWithMetadata`, `TryParseWithMetadata` and `ParseMultipleWithMetadata`.
+Adding the `NumberText` field to the `YamlParsed` record is source-breaking for code that constructs a `YamlParsed` literal, so the next release is 0.2.0.
+Retargeted `net8.0` to `net10.0`: the library now targets `netstandard2.0` and `net10.0`, and the tests and Fable project target `net10.0`. `IsAotCompatible` is now set only for the `net10.0` target.</PackageReleaseNotes>
     <Authors>Devon Burriss</Authors>
     <Title>Flexi.Yaml</Title>
     <Copyright>Copyright © 2026 Devon Burriss</Copyright>
