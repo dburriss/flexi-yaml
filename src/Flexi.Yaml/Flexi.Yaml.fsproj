@@ -5,10 +5,8 @@
     <IsPackable>true</IsPackable>
     <PackageId>Flexi.Yaml</PackageId>
     <Description>A dependency-free YAML document API, shaped like FSharp.Data's JsonValue: a discriminated union DU you can pattern match, Parse/Load, a `?` dynamic operator and AsInteger()-style accessors.</Description>
-    <Version>0.2.0</Version>
-    <PackageReleaseNotes>`YamlParsed.NumberText`: the original source text of every `Number` and `Float` node (`1.10`, `1.0`, `1e3`, `0x1F`), keyed by JSON Pointer, from `ParseWithMetadata`, `TryParseWithMetadata` and `ParseMultipleWithMetadata`.
-Adding the `NumberText` field to the `YamlParsed` record is source-breaking for code that constructs a `YamlParsed` literal, so the next release is 0.2.0.
-Retargeted `net8.0` to `net10.0`: the library now targets `netstandard2.0` and `net10.0`, and the tests and Fable project target `net10.0`. `IsAotCompatible` is now set only for the `net10.0` target.</PackageReleaseNotes>
+    <Version>0.2.1</Version>
+    <PackageReleaseNotes>The packed FSharp.Core dependency is now an explicit 8.0.403 minimum instead of the SDK default (0.2.0 accidentally required 11.0.101).</PackageReleaseNotes>
     <Authors>Devon Burriss</Authors>
     <Title>Flexi.Yaml</Title>
     <Copyright>Copyright © 2026 Devon Burriss</Copyright>
